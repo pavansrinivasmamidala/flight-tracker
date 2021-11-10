@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
@@ -32,7 +33,8 @@ const styles = {
         zIndex:100,
         position:"absolute",
         marginTop:"30px",
-        marginLeft:"30px"
+        marginLeft:"30px",
+        boxShadow:"2px grey"
     },
     inputBase:{
         ml: 1,

@@ -1,5 +1,16 @@
+// eslint-disable-next-line no-unused-vars
+import useFetch from "react-fetch-hook";
 
-export default function SideBar() {
+export default function SideBar(data) {
+
+  //const {isLoading, error, sideBarData} =  useFetch(`https://aviation-edge.com/v2/public/cityDatabase?key=c75eac-812e66&codeIataCity=${data.props.data[0].departure.iataCode}`)
+
+ // console.log(sideBarData)
+
+
+
+
+
   const styles = {
     flightInfo: {
       backgroundColor: "white",
@@ -23,7 +34,7 @@ export default function SideBar() {
       fontSize: 16,
     },
     flightOriginCity: {
-      fontSize: 40,
+      fontSize: 46,
       fontWeight: "bold",
       paddingTop: "10px",
     },
@@ -104,12 +115,12 @@ export default function SideBar() {
       paddingBottom:"20px"
     },
     aircraftType: {
-      fontSize:"20px",
+      fontSize:"18px",
       fontWeight:600,
       paddingBottom:"10px"
     },
     aircraftTypeName:{
-      fontSize:"22px",
+      fontSize:"18px",
       paddingBottom:"30px"
     }
    
