@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
-import {lineDistance, along} from "turf";
+import { lineDistance, along } from "turf";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicGF2YW5zcmluaXZhcyIsImEiOiJja3ZnMm0xb3M3dWRuMm9wZ3pneDY5bzJ0In0.Ko5yxRyzxEK10CfmZXrW1Q";
@@ -9,9 +9,9 @@ export default function Map(data) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   // eslint-disable-next-line no-unused-vars
-  const [lng, setLat] = useState(data.props.data[0].geography.latitude);
+  //const [lng, setLat] = useState(data.props.data[0].geography.latitude);
   // eslint-disable-next-line no-unused-vars
-  const [lat, setLng] = useState(data.props.data[0].geography.longitude);
+  //const [lat, setLng] = useState(data.props.data[0].geography.longitude);
   // eslint-disable-next-line no-unused-vars
   const [zoom, setZoom] = useState(3.5);
 
@@ -32,7 +32,6 @@ export default function Map(data) {
     ],
   };
 
-    console.log(data);
   const originName = {
     type: "FeatureCollection",
     features: [
@@ -42,34 +41,34 @@ export default function Map(data) {
           type: "Point",
           coordinates: origin,
         },
+        properties: {
+          iconSize: [40, 40],
+        },
       },
     ],
   };
 
- 
-
-  const length = lineDistance(route.features[0])
- 
+  const length = lineDistance(route.features[0]);
 
   const arc = [];
 
-  const steps = 500
+  const steps = 500;
 
   for (let i = 0; i < length; i += length / steps) {
     const segment = along(route.features[0], i);
     arc.push(segment.geometry.coordinates);
-    }
+  }
 
-    
-    route.features[0].geometry.coordinates = arc;
-    // eslint-disable-next-line no-unused-vars
-    let counter = 0;
+  route.features[0].geometry.coordinates = arc;
+  // eslint-disable-next-line no-unused-vars
+  let counter = 0;
 
   useEffect(() => {
     if (map.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/pavansrinivas/ckvjy79ek0yui14qmqoka6q09",
+      //style: "mapbox://styles/pavansrinivas/ckvjy79ek0yui14qmqoka6q09",
+      style:"mapbox://styles/mapbox/streets-v11",
       center: [
         (origin[0] + destination[0] + 10) / 2,
         (origin[1] + destination[1]) / 2,
@@ -78,8 +77,6 @@ export default function Map(data) {
     });
 
     map.current.on("load", () => {
-
-
       map.current.addSource("route", {
         type: "geojson",
         data: route,
@@ -95,45 +92,42 @@ export default function Map(data) {
         },
       });
 
-
       map.current.addSource("originName", {
         type: "geojson",
         data: originName,
-     });        
+      });
       map.current.addLayer({
-          'id':'originName',
-          'source':'originName',
-          'type':'symbol',
-          'layout': {
-              'icon-image':'airport',
-              //'icon-rotate':['get','bearing'],
-              //'icon-rotation-alignment':'map',
-             // 'icon-allow-overlap':true,
-              //'icon-ignore-placement':true,
-              //'icon-rotate':['bearing']
-              //'icon-size':0.25
-          }
+        id: "originName",
+        source: "originName",
+        type: "symbol",
+        layout: {
+          "icon-image": "airport-15",
+        // "bearing":30,
+         // "icon-rotation-alignment": "map",
+          // 'icon-allow-overlap':true,
+          //'icon-ignore-placement':true,
+          //'icon-rotate':['bearing']
+          //'icon-size':0.25
+          //"icon-color":"#8A6FB5",
+          //"icon-ignore-placement":true,
+          //"icon-rotation-alignment":"map"
+        },
       });
 
-
-      
-
-    //   map.current.addLayer({
-    //     id: "point",
-    //     source: "originName",
-    //     type: "point",
-    //     paint: {
-    //       "font-size": "10px",
-    //       "color": "white",
-    //     },
-    //   });
-
-    
+      //   map.current.addLayer({
+      //     id: "point",
+      //     source: "originName",
+      //     type: "point",
+      //     paint: {
+      //       "font-size": "10px",
+      //       "color": "white",
+      //     },
+      //   });
     });
 
     //new mapboxgl.Marker().setLngLat(origin).addTo(map.current)
 
-   // new mapboxgl.Point().add()
+    // new mapboxgl.Point().add()
   });
 
   const styles = {
@@ -141,7 +135,6 @@ export default function Map(data) {
       height: "100vh",
       width: "70vw",
     },
-
   };
 
   return (
@@ -150,8 +143,7 @@ export default function Map(data) {
         ref={mapContainer}
         className="map-container"
         style={styles.mapContainer}
-      >
-      </div>
+      ></div>
     </div>
   );
 }
