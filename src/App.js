@@ -5,10 +5,12 @@ import SideBar from "./components/SideBar/SideBar";
 import React from "react";
 import useFetch from "react-fetch-hook";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
 function App() {
   // eslint-disable-next-line no-unused-vars
-   const { isLoading, error, data} = useFetch("https://aviation-edge.com/v2/public/flights?key=c75eac-812e66&flightIata=ET3712")
-  
+   const { isLoading, error, data} = useFetch("https://aviation-edge.com/v2/public/flights?key=c75eac-812e66&flightIata=FX77")
+    console.log(data);
+
   
 
    return (
