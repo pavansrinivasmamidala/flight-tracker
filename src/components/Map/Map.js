@@ -19,7 +19,6 @@ export default function Map(data) {
 
   const destination = [-77.032, 38.913];
   
-
   console.log(data);
 
   useEffect(() => {
