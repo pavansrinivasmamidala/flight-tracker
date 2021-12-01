@@ -6,49 +6,65 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import axios from "axios";
 
-
 function App() {
-  const [flightTrackData, setFlightTrackData] = useState({});
-  const [cityData, setCityData] = useState({});
-  const [countryData,setCountryData] = useState({});  
-   
+  const [flightTrackData, setFlightTrackData] = useState(null);
+  const [originData, setOriginData] = useState(null);
+  const [destinationData, setDestinationData] = useState(null);
+  const [countryData, setCountryData] = useState(null);
+
   const fetchFlightData = async () => {
-
     const flightdata = await axios.get(
-      "https://aviation-edge.com/v2/public/flights?key=c75eac-812e66&flightIata=AC91"
+      "https://aviation-edge.com/v2/public/flights?key=c75eac-812e66&flightIata=KE31"
     );
-      setFlightTrackData(flightdata);
-      console.log(flightTrackData)
+    setFlightTrackData(flightdata);
+    console.log(flightTrackData);
 
-    const citydata = await axios.get(
-      `https://aviation-edge.com/v2/public/cityDatabase?key=c75eac-812e66&codeIataCity=${flightdata.data[0].departure.iataCode}`
-    )
-    setCityData(citydata);
-    console.log(cityData)
+    const origindata = await axios.get(
+      `https://aviation-edge.com/v2/public/cityDatabase?key=c75eac-812e66&codeIataCity=${flightdata?.data[0]?.departure?.iataCode}`
+    );
+    setOriginData(origindata);
+    console.log(originData);
+
+    const destinationdata = await axios.get(
+      `https://aviation-edge.com/v2/public/cityDatabase?key=c75eac-812e66&codeIataCity=${flightdata?.data[0]?.arrival?.iataCode}`
+    );
+    setDestinationData(destinationdata);
+    console.log(destinationData);
 
     const countrydata = await axios.get(
-      ` https://aviation-edge.com/v2/public/countryDatabase?key=c75eac-812e66&codeIso2Country=${citydata.data[0].codeIso2Country} `
-    )
+      ` https://aviation-edge.com/v2/public/countryDatabase?key=c75eac-812e66&codeIso2Country=${origindata?.data[0]?.codeIso2Country} `
+    );
     setCountryData(countrydata);
-    console.log(countryData)
+    console.log(countryData);
 
-  };                                                  
-  
- 
+    while (!flightTrackData) {
+      fetchFlightData();
+    }
+  };
 
   useEffect(() => {
-     fetchFlightData();
-  },[]);
+    fetchFlightData();
+  }, []);
 
-
-    return (
+  return (
     <div>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LinkForFlightTracker />}></Route>
           <Route
             path="/flight-tracker"
-            element={<FlightTracker data={flightTrackData,cityData,countryData} />}
+            element={
+              { flightTrackData } ? (
+                <FlightTracker
+                  flightData={flightTrackData}
+                  originData={originData}
+                  countryData={countryData}
+                  destinationData={destinationData}
+                />
+              ) : (
+                <div>Loading 1</div>
+              )
+            }
           ></Route>
         </Routes>
       </BrowserRouter>
@@ -56,17 +72,25 @@ function App() {
   );
 }
 
-function FlightTracker(flightTrackData,cityData,countryData) {
-  return (
-    (flightTrackData && cityData && countryData) ? 
-    <div>
-      <InputBar />
-      <Map props={flightTrackData,cityData} />
-      <SideBar props={flightTrackData,cityData,countryData} />
-    </div>
-    :
-    <div>Loading...</div>
-  );
+function FlightTracker(data) {
+  if (data)
+   { return (
+      <div>
+        {/* <InputBar /> */}
+        <Map
+          flightData={data.flightData}
+          originData={data.originData}
+          destinationData={data.destinationData}
+        />
+        {/* <SideBar
+          countryData={data.countryData}
+          flightData={data.flightData}
+          originData={data.originData}
+          destinationData={data.destinationData}
+        /> */}
+      </div>
+    );}
+  else return <div>Loading..</div>;
 }
 
 function LinkForFlightTracker() {
