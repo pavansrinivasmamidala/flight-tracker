@@ -14,32 +14,32 @@ function App() {
 
   const fetchFlightData = async () => {
     const flightdata = await axios.get(
-      "https://aviation-edge.com/v2/public/flights?key=c75eac-812e66&flightIata=KE31"
+      "https://aviation-edge.com/v2/public/flights?key=c75eac-812e66&flightIata=CV6115"
     );
     setFlightTrackData(flightdata);
-    console.log(flightTrackData);
+    console.log(flightdata);
 
     const origindata = await axios.get(
       `https://aviation-edge.com/v2/public/cityDatabase?key=c75eac-812e66&codeIataCity=${flightdata?.data[0]?.departure?.iataCode}`
     );
     setOriginData(origindata);
-    console.log(originData);
+    console.log(origindata);
 
     const destinationdata = await axios.get(
       `https://aviation-edge.com/v2/public/cityDatabase?key=c75eac-812e66&codeIataCity=${flightdata?.data[0]?.arrival?.iataCode}`
     );
     setDestinationData(destinationdata);
-    console.log(destinationData);
+    console.log(destinationdata);
 
     const countrydata = await axios.get(
       ` https://aviation-edge.com/v2/public/countryDatabase?key=c75eac-812e66&codeIso2Country=${origindata?.data[0]?.codeIso2Country} `
     );
     setCountryData(countrydata);
-    console.log(countryData);
+    console.log(countrydata);
 
-    while (!flightTrackData) {
-      fetchFlightData();
-    }
+    // while (!flightTrackData) {
+    //   fetchFlightData();
+    // }
   };
 
   useEffect(() => {
@@ -54,16 +54,12 @@ function App() {
           <Route
             path="/flight-tracker"
             element={
-              { flightTrackData } ? (
-                <FlightTracker
-                  flightData={flightTrackData}
-                  originData={originData}
-                  countryData={countryData}
-                  destinationData={destinationData}
-                />
-              ) : (
-                <div>Loading 1</div>
-              )
+              <FlightTracker
+                flightData={flightTrackData}
+                originData={originData}
+                countryData={countryData}
+                destinationData={destinationData}
+              />
             }
           ></Route>
         </Routes>
@@ -73,8 +69,8 @@ function App() {
 }
 
 function FlightTracker(data) {
-  if (data)
-   { return (
+  if (data != {}) {
+    return (
       <div>
         {/* <InputBar /> */}
         <Map
@@ -82,15 +78,15 @@ function FlightTracker(data) {
           originData={data.originData}
           destinationData={data.destinationData}
         />
-        {/* <SideBar
+        <SideBar
           countryData={data.countryData}
           flightData={data.flightData}
           originData={data.originData}
           destinationData={data.destinationData}
-        /> */}
+        />
       </div>
-    );}
-  else return <div>Loading..</div>;
+    );
+  } else return <div>Loading..</div>;
 }
 
 function LinkForFlightTracker() {

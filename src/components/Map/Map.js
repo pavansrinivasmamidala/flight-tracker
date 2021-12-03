@@ -33,7 +33,9 @@ export default function Map(props) {
 
     const destination = [
       props?.destinationData?.data?.[0]?.longitudeCity || -77.032,
-      props?.destinationData?.data?.[0]?.latitudeCity || 38.913];
+      props?.destinationData?.data?.[0]?.latitudeCity || 38.913,
+    ];
+
     const route = {
       type: "FeatureCollection",
       features: [
@@ -48,7 +50,9 @@ export default function Map(props) {
     };
 
     const length = lineDistance(route.features[0]);
-    setZoom(length/80)
+    console.log(length / 2000);
+    setZoom((length / 2000).toFixed(2));
+    console.log(zoom);
     const arc = [];
 
     const steps = 500;
@@ -86,8 +90,8 @@ export default function Map(props) {
       style: "mapbox://styles/pavansrinivas/ckvjy79ek0yui14qmqoka6q09",
       //style:"mapbox://styles/mapbox/streets-v11",
       center: [
-        ((origin[0] + destination[0] +10)/2),
-        ((origin[1] + destination[1])/2),
+        (origin[0] + destination[0] + 10) / 2,
+        (origin[1] + destination[1]) / 2,
       ],
       zoom: zoom,
     });

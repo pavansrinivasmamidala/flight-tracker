@@ -128,15 +128,15 @@ export default function SideBar(props) {
     <div style={styles.flightInfo}>
       <div className="flight-origin-info" style={styles.flightOriginInfo}>
         <span className="flight-origin" style={styles.flightOrigin}>
-          {`${flightData.data[0].departure.iataCode} (${flightData.data[0].flight.iataNumber}) flight from `}
+          {flightData?.data[0]?.departure?.iataCode || "Loading Iata code"} ({flightData?.data[0]?.flight?.iataNumber  || "Loading Iata"}) flight from 
         </span>
         <span className="flight-origin-city" style={styles.flightOriginCity}>
           {originData?.data?.[0]?.nameCity}
         </span>
         <span className="flight-path-info" style={styles.flightPathInfo}>
-          {originData?.data?.[0]?.nameCity} (
-          {flightData.data[0].departure.iataCode}) - Denpasar (
-          {flightData.data[0].arrival.iataCode})
+          {originData?.data[0]?.nameCity} (
+          {flightData?.data[0]?.departure?.iataCode || "Loading Dep Iata Code"} ) - Denpasar (
+          {flightData?.data[0]?.arrival?.iataCode  || "Loading Dep Iata Code"})
         </span>
       </div>
       <div className="flight-info-card" style={styles.flightInfoCard}>
@@ -160,7 +160,7 @@ export default function SideBar(props) {
           <div style={styles.flightInfoCardTableText}>
             <span style={styles.spanText}>Flight Number</span>
             <span style={styles.spanText}>
-              {flightData.data[0].flight.iataNumber}
+              {flightData?.data[0]?.flight?.iataNumber || "Loading Iata Num"}
             </span>
           </div>
           <div style={styles.flightInfoCardTableText}>
@@ -173,13 +173,13 @@ export default function SideBar(props) {
         <div className="flight-speed" style={styles.speed}>
           <span style={styles.speedHeading}>Speed</span>
           <span style={styles.speedText}>
-            {flightData.data[0].speed.horizontal} KM/H
+            {flightData?.data[0]?.speed?.horizontal || "Loading Speed"} KM/H
           </span>
         </div>
         <div className="flight-altitude" style={styles.speed}>
           <span style={styles.speedHeading}>Altitude</span>
           <span style={styles.speedText}>
-            {flightData.data[0].geography.altitude}m
+            {flightData?.data[0]?.geography?.altitude || "Loading altitude"}m
           </span>
         </div>
       </div>
@@ -191,7 +191,7 @@ export default function SideBar(props) {
         </span>
         <span style={styles.aircraftType}>Registration</span>
         <span style={styles.aircraftTypeName}>
-          {flightData.data[0].aircraft.regNumber}
+          {flightData?.data[0]?.aircraft?.regNumber || "Loading req num"}
         </span>
       </div>
     </div>
