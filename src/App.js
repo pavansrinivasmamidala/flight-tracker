@@ -5,6 +5,7 @@ import SideBar from "./components/SideBar/SideBar";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import axios from "axios";
+import { height } from "@mui/system";
 
 function App() {
   const [flightTrackData, setFlightTrackData] = useState(null);
@@ -14,7 +15,7 @@ function App() {
 
   const fetchFlightData = async () => {
     const flightdata = await axios.get(
-      "https://aviation-edge.com/v2/public/flights?key=c75eac-812e66&flightIata=CV6115"
+      "https://aviation-edge.com/v2/public/flights?key=c75eac-812e66&flightIata=CI62"
     );
     setFlightTrackData(flightdata);
     console.log(flightdata);
@@ -91,8 +92,9 @@ function FlightTracker(data) {
 
 function LinkForFlightTracker() {
   return (
-    <div>
-      <Link to="flight-tracker">click here</Link>
+    <div style={{display:"flex",justifyContent:"center",alignItems:"center",height:"100vh"}}>
+      {/* <InputBar /> */}
+      <Link to="flight-tracker" style={{fontSize:"30px"}} >Flight Tracker</Link>
     </div>
   );
 }

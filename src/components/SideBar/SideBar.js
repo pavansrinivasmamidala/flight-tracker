@@ -24,7 +24,7 @@ export default function SideBar(props) {
       boxShadow: "0 3px 10px rgb(0 0 0 / 0.2)",
     },
     flightOriginInfo: {
-      padding: "10% 15%",
+      padding: "8% 15%",
       position: "relative",
       display: "flex",
       flexDirection: "column",
@@ -83,7 +83,7 @@ export default function SideBar(props) {
       justifyContent: "space-evenly",
       paddingTop: "200px",
       backgroundColor: "#E7F5F9",
-      marginTop: "100px",
+      marginTop: "50px",
     },
     speed: {
       display: "flex",
@@ -135,7 +135,7 @@ export default function SideBar(props) {
         </span>
         <span className="flight-path-info" style={styles.flightPathInfo}>
           {originData?.data[0]?.nameCity} (
-          {flightData?.data[0]?.departure?.iataCode || "Loading Dep Iata Code"} ) - Denpasar (
+          {flightData?.data[0]?.departure?.iataCode || "Loading Dep Iata Code"} ) - {destinationData?.data[0]?.nameCity} (
           {flightData?.data[0]?.arrival?.iataCode  || "Loading Dep Iata Code"})
         </span>
       </div>
@@ -173,7 +173,7 @@ export default function SideBar(props) {
         <div className="flight-speed" style={styles.speed}>
           <span style={styles.speedHeading}>Speed</span>
           <span style={styles.speedText}>
-            {flightData?.data[0]?.speed?.horizontal || "Loading Speed"} KM/H
+            {(flightData?.data[0]?.speed?.horizontal) || "Loading Speed"} KM/H
           </span>
         </div>
         <div className="flight-altitude" style={styles.speed}>

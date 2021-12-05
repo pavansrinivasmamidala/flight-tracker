@@ -17,7 +17,7 @@ export default function Map(props) {
   // eslint-disable-next-line no-unused-vars
   //const [lat, setLng] = useState(data.props.data[0].geography.longitude);
   // eslint-disable-next-line no-unused-vars
-  const [zoom, setZoom] = useState(3);
+  const [zoom, setZoom] = useState(2);
 
   //const origin = [cityData.data[0].latitudeCity, cityData.data[0].longitudeCity];
   const origin = [-122.414, 37.776];
