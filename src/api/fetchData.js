@@ -12,3 +12,9 @@ export const fetchCityData = (iataCode) =>{
     `https://aviation-edge.com/v2/public/cityDatabase?key=c75eac-812e66&codeIataCity=${iataCode}`
   );
 }
+
+export const fetchTimeTable = (iataCode) => {
+    return axios.get(
+        `http://aviation-edge.com/v2/public/timetable?key=c75eac-812e66&flight_iata=${iataCode}`
+      );
+}

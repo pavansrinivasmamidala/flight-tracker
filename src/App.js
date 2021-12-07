@@ -2,99 +2,60 @@ import InputBar from "./components/InputBar/InputBar";
 import "mapbox-gl/dist/mapbox-gl.css";
 import Map from "./components/Map/Map";
 import SideBar from "./components/SideBar/SideBar";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import axios from "axios";
-import { height } from "@mui/system";
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
+import {
+  destinationSelector,
+  flightAtom,
+  flightSelector,
+  originSelector,
+  scheduleAtom,
+  scheduleSelector,
+} from "./store";
 
 function App() {
-  const [flightTrackData, setFlightTrackData] = useState(null);
-  const [originData, setOriginData] = useState(null);
-  const [destinationData, setDestinationData] = useState(null);
-  const [countryData, setCountryData] = useState(null);
 
-  const fetchFlightData = async () => {
-    const flightdata = await axios.get(
-      "https://aviation-edge.com/v2/public/flights?key=c75eac-812e66&flightIata=CI62"
-    );
-    setFlightTrackData(flightdata);
-    console.log(flightdata);
-
-    const origindata = await axios.get(
-      `https://aviation-edge.com/v2/public/cityDatabase?key=c75eac-812e66&codeIataCity=${flightdata?.data[0]?.departure?.iataCode}`
-    );
-    setOriginData(origindata);
-    console.log(origindata);
-
-    const destinationdata = await axios.get(
-      `https://aviation-edge.com/v2/public/cityDatabase?key=c75eac-812e66&codeIataCity=${flightdata?.data[0]?.arrival?.iataCode}`
-    );
-    setDestinationData(destinationdata);
-    console.log(destinationdata);
-
-    const countrydata = await axios.get(
-      ` https://aviation-edge.com/v2/public/countryDatabase?key=c75eac-812e66&codeIso2Country=${origindata?.data[0]?.codeIso2Country} `
-    );
-    setCountryData(countrydata);
-    console.log(countrydata);
-
-    // while (!flightTrackData) {
-    //   fetchFlightData();
-    // }
-  };
-
-  useEffect(() => {
-    fetchFlightData();
-  }, []);
 
   return (
+    <Suspense fallback="loading..">
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LinkForFlightTracker />}></Route>
+            <Route path="/flight-tracker" element={<FlightTracker />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </Suspense>
+  );
+}
+
+function FlightTracker() {
+  return (
     <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LinkForFlightTracker />}></Route>
-          <Route
-            path="/flight-tracker"
-            element={
-              <FlightTracker
-                flightData={flightTrackData}
-                originData={originData}
-                countryData={countryData}
-                destinationData={destinationData}
-              />
-            }
-          ></Route>
-        </Routes>
-      </BrowserRouter>
+      {/* <InputBar /> */}
+      <Map />
+      <SideBar />
     </div>
   );
 }
 
-function FlightTracker(data) {
-  if (data != {}) {
-    return (
-      <div>
-        {/* <InputBar /> */}
-        <Map
-          flightData={data.flightData}
-          originData={data.originData}
-          destinationData={data.destinationData}
-        />
-        <SideBar
-          countryData={data.countryData}
-          flightData={data.flightData}
-          originData={data.originData}
-          destinationData={data.destinationData}
-        />
-      </div>
-    );
-  } else return <div>Loading..</div>;
-}
-
 function LinkForFlightTracker() {
   return (
-    <div style={{display:"flex",justifyContent:"center",alignItems:"center",height:"100vh"}}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
       {/* <InputBar /> */}
-      <Link to="flight-tracker" style={{fontSize:"30px"}} >Flight Tracker</Link>
+      <Link to="flight-tracker" style={{ fontSize: "30px" }}>
+        Flight Tracker
+      </Link>
     </div>
   );
 }

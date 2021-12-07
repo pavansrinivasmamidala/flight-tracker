@@ -1,15 +1,15 @@
 // eslint-disable-next-line no-unused-vars
 import useFetch from "react-fetch-hook";
+import { useRecoilValue } from "recoil";
+import { flightSelector, originSelector, destinationSelector, scheduleSelector } from "../../store";
 
-export default function SideBar(props) {
+export default function SideBar() {
   //const {isLoading, error, sideBarData} =  useFetch(`https://aviation-edge.com/v2/public/cityDatabase?key=c75eac-812e66&codeIataCity=${data.props.data[0].departure.iataCode}`)
-
+  const flightData = useRecoilValue(flightSelector);
+  const originData = useRecoilValue(originSelector);
+  const destinationData = useRecoilValue(destinationSelector);
+  const timeTable = useRecoilValue(scheduleSelector);
   // console.log(sideBarData)
-  const flightData = props.flightData;
-  const originData = props.originData;
-  const destinationData = props.destinationData;
-  const countryData = props.countryData;
-
   const styles = {
     flightInfo: {
       backgroundColor: "white",
@@ -179,7 +179,7 @@ export default function SideBar(props) {
         <div className="flight-altitude" style={styles.speed}>
           <span style={styles.speedHeading}>Altitude</span>
           <span style={styles.speedText}>
-            {flightData?.data[0]?.geography?.altitude || "Loading altitude"}m
+            {flightData?.data[0]?.geography?.altitude + "m" || "Loading"}
           </span>
         </div>
       </div>

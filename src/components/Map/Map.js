@@ -1,14 +1,15 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import { lineDistance, along, bearing } from "turf";
+import {useRecoilValue} from 'recoil';
+import { flightSelector, originSelector,destinationSelector } from "../../store";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicGF2YW5zcmluaXZhcyIsImEiOiJja3ZnMm0xb3M3dWRuMm9wZ3pneDY5bzJ0In0.Ko5yxRyzxEK10CfmZXrW1Q";
 
-export default function Map(props) {
-  const flightTrackData = props.flightData;
-  const originData = props.originData;
-  const destinationData = props.destinationData;
+export default function Map() {
+  const originData = useRecoilValue(originSelector);
+  const destinationData = useRecoilValue(destinationSelector);
   // const locationArray = [cityData.data[0]]
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -27,13 +28,13 @@ export default function Map(props) {
 
   useEffect(() => {
     const origin = [
-      props?.originData?.data?.[0]?.longitudeCity || -122.414,
-      props?.originData?.data?.[0]?.latitudeCity || 37.776,
+      originData?.data?.[0]?.longitudeCity || -122.414,
+      originData?.data?.[0]?.latitudeCity || 37.776,
     ];
 
     const destination = [
-      props?.destinationData?.data?.[0]?.longitudeCity || -77.032,
-      props?.destinationData?.data?.[0]?.latitudeCity || 38.913,
+      destinationData?.data?.[0]?.longitudeCity || -77.032,
+      destinationData?.data?.[0]?.latitudeCity || 38.913,
     ];
 
     const route = {

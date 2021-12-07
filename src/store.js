@@ -1,10 +1,10 @@
-import { atom, selector } from "recoil";
-import { fetchCityData, fetchFlightData } from "./api/fetchData";
+import { atom, selector, useRecoilCallback, waitForAll, waitForAllSettled, waitForNone } from "recoil";
+import { fetchCityData, fetchFlightData, fetchTimeTable } from "./api/fetchData";
 
 
-export const flightIata = atom({
+export const flightIataAtom = atom({
     key:"flightIata",
-    default:null
+    default:"TK1629"
 })
 
 
@@ -17,10 +17,13 @@ export const flightAtom = atom({
 export const flightSelector = selector({
   key: "flightSelector",
   get: async ({ get }) => {
-    const flightIata = get(flightAtom);
+    const flightIata = get(flightIataAtom);
     const flightData = await fetchFlightData(flightIata);
     return flightData ? flightData : "flight data not found";
-  } 
+  },
+  set: ({set,get}) => {
+      set(flightAtom, get(flightSelector));
+  }
 });
 
 export const originAtom = atom({
@@ -31,7 +34,7 @@ export const originAtom = atom({
 export const originSelector = selector({
   key: "originSelector",
   get: async ({ get }) => {
-    const cityIata = get(flightAtom);
+    const cityIata = get(flightSelector);
     const cityData = await fetchCityData(cityIata?.data[0]?.departure?.iataCode);
     return cityData ? cityData : "city data not found";
   }
@@ -46,7 +49,7 @@ export const destinationAtom = atom({
 export const destinationSelector = selector({
     key:"destinationSelector",
     get: async ({get}) => {
-        const cityIata = get(destinationAtom);
+        const cityIata = get(flightSelector);
         const cityData = await fetchCityData(cityIata?.data[0]?.arrival?.iataCode);
         return cityData ? cityData : "city data not found";
     }
@@ -59,7 +62,21 @@ export const scheduleAtom = atom({
   default: null,
 });
 
+
+export const scheduleSelector = selector({
+    key:"scheduleSelector",
+    get: async ({get}) => {
+        const timetable = await fetchTimeTable(get(flightIataAtom));
+        return timetable ? timetable : "time and date not found";
+    }
+})
+
+
+
+
 export const autocompleteAtom = atom({
   key: "autocompleteData",
   default: null,
 });
+
+
