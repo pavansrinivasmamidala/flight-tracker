@@ -10,14 +10,9 @@ mapboxgl.accessToken =
 export default function Map() {
   const originData = useRecoilValue(originSelector);
   const destinationData = useRecoilValue(destinationSelector);
-  // const locationArray = [cityData.data[0]]
+  
   const mapContainer = useRef(null);
   const map = useRef(null);
-  // eslint-disable-next-line no-unused-vars
-  //const [lng, setLat] = useState(data.props.data[0].geography.latitude);
-  // eslint-disable-next-line no-unused-vars
-  //const [lat, setLng] = useState(data.props.data[0].geography.longitude);
-  // eslint-disable-next-line no-unused-vars
   const [zoom, setZoom] = useState(2);
 
   //const origin = [cityData.data[0].latitudeCity, cityData.data[0].longitudeCity];
@@ -51,9 +46,7 @@ export default function Map() {
     };
 
     const length = lineDistance(route.features[0]);
-    console.log(length / 2000);
-    setZoom((length / 2000).toFixed(2));
-    console.log(zoom);
+    
     const arc = [];
 
     const steps = 500;

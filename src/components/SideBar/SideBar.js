@@ -1,15 +1,22 @@
 // eslint-disable-next-line no-unused-vars
 import useFetch from "react-fetch-hook";
 import { useRecoilValue } from "recoil";
-import { flightSelector, originSelector, destinationSelector, scheduleSelector } from "../../store";
+import {
+  flightSelector,
+  originSelector,
+  destinationSelector,
+  scheduleSelector,
+} from "../../store";
 
 export default function SideBar() {
-  //const {isLoading, error, sideBarData} =  useFetch(`https://aviation-edge.com/v2/public/cityDatabase?key=c75eac-812e66&codeIataCity=${data.props.data[0].departure.iataCode}`)
   const flightData = useRecoilValue(flightSelector);
   const originData = useRecoilValue(originSelector);
   const destinationData = useRecoilValue(destinationSelector);
   const timeTable = useRecoilValue(scheduleSelector);
-  // console.log(sideBarData)
+
+  const arrivalDateAndTime = timeTable?.data[1]?.arrival.estimatedTime;
+
+    console.log(timeTable);
   const styles = {
     flightInfo: {
       backgroundColor: "white",
@@ -83,7 +90,7 @@ export default function SideBar() {
       justifyContent: "space-evenly",
       paddingTop: "200px",
       backgroundColor: "#E7F5F9",
-      marginTop: "50px",
+      marginTop: "100px",
     },
     speed: {
       display: "flex",
@@ -128,15 +135,18 @@ export default function SideBar() {
     <div style={styles.flightInfo}>
       <div className="flight-origin-info" style={styles.flightOriginInfo}>
         <span className="flight-origin" style={styles.flightOrigin}>
-          {flightData?.data[0]?.departure?.iataCode || "Loading Iata code"} ({flightData?.data[0]?.flight?.iataNumber  || "Loading Iata"}) flight from 
+          {flightData?.data[0]?.departure?.iataCode || "Loading Iata code"} (
+          {flightData?.data[0]?.flight?.iataNumber || "Loading Iata"}) flight
+          from
         </span>
         <span className="flight-origin-city" style={styles.flightOriginCity}>
           {originData?.data?.[0]?.nameCity}
         </span>
         <span className="flight-path-info" style={styles.flightPathInfo}>
           {originData?.data[0]?.nameCity} (
-          {flightData?.data[0]?.departure?.iataCode || "Loading Dep Iata Code"} ) - {destinationData?.data[0]?.nameCity} (
-          {flightData?.data[0]?.arrival?.iataCode  || "Loading Dep Iata Code"})
+          {flightData?.data[0]?.departure?.iataCode || "Loading Dep Iata Code"}{" "}
+          ) - {destinationData?.data[0]?.nameCity} (
+          {flightData?.data[0]?.arrival?.iataCode || "Loading Dep Iata Code"})
         </span>
       </div>
       <div className="flight-info-card" style={styles.flightInfoCard}>
@@ -151,11 +161,11 @@ export default function SideBar() {
         <div style={styles.flightInfoCardTableDiv}>
           <div style={styles.flightInfoCardTableText}>
             <span style={styles.spanText}>Date</span>
-            <span style={styles.spanText}>8 Jan</span>
+            <span style={styles.spanText}>{arrivalDateAndTime.slice(5,10)}</span>
           </div>
           <div style={styles.flightInfoCardTableText}>
             <span style={styles.spanText}>Arrival Time</span>
-            <span style={styles.spanText}>16:20</span>
+            <span style={styles.spanText}>{arrivalDateAndTime.slice(11,16)}</span>
           </div>
           <div style={styles.flightInfoCardTableText}>
             <span style={styles.spanText}>Flight Number</span>
@@ -164,8 +174,8 @@ export default function SideBar() {
             </span>
           </div>
           <div style={styles.flightInfoCardTableText}>
-            <span style={styles.spanText}>Arrivals</span>
-            <span style={styles.spanText}>2</span>
+            <span style={styles.spanText}>Airline</span>
+            <span style={styles.spanText}>{timeTable?.data[0]?.airline.name}</span>
           </div>
         </div>
       </div>
@@ -173,7 +183,7 @@ export default function SideBar() {
         <div className="flight-speed" style={styles.speed}>
           <span style={styles.speedHeading}>Speed</span>
           <span style={styles.speedText}>
-            {(flightData?.data[0]?.speed?.horizontal) || "Loading Speed"} KM/H
+            {flightData?.data[0]?.speed?.horizontal || "Loading Speed"} KM/H
           </span>
         </div>
         <div className="flight-altitude" style={styles.speed}>

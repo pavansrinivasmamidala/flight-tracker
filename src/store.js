@@ -1,10 +1,10 @@
-import { atom, selector, useRecoilCallback, waitForAll, waitForAllSettled, waitForNone } from "recoil";
+import { atom, selector } from "recoil";
 import { fetchCityData, fetchFlightData, fetchTimeTable } from "./api/fetchData";
 
 
 export const flightIataAtom = atom({
     key:"flightIata",
-    default:"TK1629"
+    default:"UA497"
 })
 
 
