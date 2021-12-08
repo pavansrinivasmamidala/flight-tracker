@@ -1,11 +1,12 @@
 // eslint-disable-next-line no-unused-vars
 import useFetch from "react-fetch-hook";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import {
   flightSelector,
   originSelector,
   destinationSelector,
   scheduleSelector,
+  flightDateAndTime,
 } from "../../store";
 
 export default function SideBar() {
@@ -13,10 +14,11 @@ export default function SideBar() {
   const originData = useRecoilValue(originSelector);
   const destinationData = useRecoilValue(destinationSelector);
   const timeTable = useRecoilValue(scheduleSelector);
+  const [arrivalDateAndTime, setArrivalDateAndTime] = useRecoilState(flightDateAndTime);
+  setArrivalDateAndTime(timeTable?.data[0]?.arrival.estimatedTime);
+  console.log(arrivalDateAndTime);
 
-  const arrivalDateAndTime = timeTable?.data[1]?.arrival.estimatedTime;
-
-    console.log(timeTable);
+  console.log(timeTable);
   const styles = {
     flightInfo: {
       backgroundColor: "white",
@@ -161,11 +163,15 @@ export default function SideBar() {
         <div style={styles.flightInfoCardTableDiv}>
           <div style={styles.flightInfoCardTableText}>
             <span style={styles.spanText}>Date</span>
-            <span style={styles.spanText}>{arrivalDateAndTime.slice(5,10)}</span>
+            <span style={styles.spanText}>
+              {arrivalDateAndTime?.slice(5, 10) || "Loading"}
+            </span>
           </div>
           <div style={styles.flightInfoCardTableText}>
             <span style={styles.spanText}>Arrival Time</span>
-            <span style={styles.spanText}>{arrivalDateAndTime.slice(11,16)}</span>
+            <span style={styles.spanText}>
+              {arrivalDateAndTime?.slice(11, 16) || "Loading"}
+            </span>
           </div>
           <div style={styles.flightInfoCardTableText}>
             <span style={styles.spanText}>Flight Number</span>
@@ -175,7 +181,9 @@ export default function SideBar() {
           </div>
           <div style={styles.flightInfoCardTableText}>
             <span style={styles.spanText}>Airline</span>
-            <span style={styles.spanText}>{timeTable?.data[0]?.airline.name}</span>
+            <span style={styles.spanText}>
+              {timeTable?.data[0]?.airline.name}
+            </span>
           </div>
         </div>
       </div>

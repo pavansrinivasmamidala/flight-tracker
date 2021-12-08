@@ -4,10 +4,13 @@ import { fetchCityData, fetchFlightData, fetchTimeTable } from "./api/fetchData"
 
 export const flightIataAtom = atom({
     key:"flightIata",
-    default:"UA497"
+    default:""
 })
 
-
+export const flightDateAndTime = atom({
+  key:"dateAndTime",
+  default:""
+})
 
 export const flightAtom = atom({
   key: "flightData",

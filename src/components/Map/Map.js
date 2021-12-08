@@ -13,7 +13,7 @@ export default function Map() {
   
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [zoom, setZoom] = useState(2);
+  const [zoom, setZoom] = useState(3);
 
   //const origin = [cityData.data[0].latitudeCity, cityData.data[0].longitudeCity];
   const origin = [-122.414, 37.776];

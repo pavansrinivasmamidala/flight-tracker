@@ -4,16 +4,8 @@ import Map from "./components/Map/Map";
 import SideBar from "./components/SideBar/SideBar";
 import React, { Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import axios from "axios";
-import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil";
-import {
-  destinationSelector,
-  flightAtom,
-  flightSelector,
-  originSelector,
-  scheduleAtom,
-  scheduleSelector,
-} from "./store";
+import Search from "./components/Search/Search";
+
 
 function App() {
 
@@ -23,7 +15,7 @@ function App() {
       <div>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<LinkForFlightTracker />}></Route>
+            <Route path="/" element={<Search />}></Route>
             <Route path="/flight-tracker" element={<FlightTracker />}></Route>
           </Routes>
         </BrowserRouter>
