@@ -15,8 +15,8 @@ export default function SideBar() {
   const destinationData = useRecoilValue(destinationSelector);
   const timeTable = useRecoilValue(scheduleSelector);
   const [arrivalDateAndTime, setArrivalDateAndTime] = useRecoilState(flightDateAndTime);
-  setArrivalDateAndTime(timeTable?.data[0]?.arrival.estimatedTime);
-  console.log(arrivalDateAndTime);
+  setArrivalDateAndTime(timeTable?.data[0]?.arrival.scheduledTime);
+  console.log(originData);
 
   console.log(timeTable);
   const styles = {

@@ -10,7 +10,8 @@ mapboxgl.accessToken =
 export default function Map() {
   const originData = useRecoilValue(originSelector);
   const destinationData = useRecoilValue(destinationSelector);
-  
+  console.log(originData);
+  console.log(destinationData)
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [zoom, setZoom] = useState(3);
@@ -23,13 +24,13 @@ export default function Map() {
 
   useEffect(() => {
     const origin = [
-      originData?.data?.[0]?.longitudeCity || -122.414,
-      originData?.data?.[0]?.latitudeCity || 37.776,
+      originData?.data[0]?.longitudeCity || -122.414,
+      originData?.data[0]?.latitudeCity || 37.776,
     ];
 
     const destination = [
-      destinationData?.data?.[0]?.longitudeCity || -77.032,
-      destinationData?.data?.[0]?.latitudeCity || 38.913,
+      destinationData?.data[0]?.longitudeCity || -77.032,
+      destinationData?.data[0]?.latitudeCity || 38.913,
     ];
 
     const route = {
@@ -128,15 +129,7 @@ export default function Map() {
         },
       });
 
-      //   map.current.addLayer({
-      //     id: "point",
-      //     source: "originName",
-      //     type: "point",
-      //     paint: {
-      //       "font-size": "10px",
-      //       "color": "white",
-      //     },
-      //   });
+    
 
       const animate = () => {
         const start =
@@ -173,9 +166,6 @@ export default function Map() {
       animate(counter);
     });
 
-    //new mapboxgl.Marker().setLngLat(origin).addTo(map.current)
-
-    // new mapboxgl.Point().add()
   }, []);
 
   const styles = {

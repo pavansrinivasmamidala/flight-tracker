@@ -28,3 +28,14 @@ export const fetchTimeTable = (iataCode) => {
     return e;
   }
 };
+
+
+export const fetchAirportData = (iataCode) => {
+  try {
+    return axios.get(
+      `https://aviation-edge.com/v2/public/airportDatabase?key=c75eac-812e66&codeIataAirport=${iataCode}`
+    );
+  } catch (e) {
+    return e;
+  }
+};
