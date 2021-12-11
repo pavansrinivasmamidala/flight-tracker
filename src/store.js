@@ -16,6 +16,8 @@ export const flightDateAndTime = atom({
   default: "",
 });
 
+
+
 export const flightAtom = atom({
   key: "flightData",
   default: null,
@@ -43,7 +45,7 @@ export const originSelector = selector({
   get: async ({ get }) => {
     const cityIata = get(flightSelector);
     const airportData = await fetchAirportData(
-      cityIata?.data[0]?.arrival?.iataCode
+      cityIata?.data[0]?.departure?.iataCode
     );
     const cityData = await fetchCityData(airportData?.data[0]?.codeIataCity);
 

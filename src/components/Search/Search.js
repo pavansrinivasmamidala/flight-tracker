@@ -1,4 +1,4 @@
-import { useRecoilState } from "recoil";
+import { atom, selector, useRecoilState } from "recoil";
 import { flightIataAtom } from "../../store";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -28,6 +28,18 @@ const MainDiv = styled.div`
     padding: 4px 4px 4px 10px;
   `;
 
+  const flightSuggestionAtom = atom({
+    key:"flightSuggestion",
+    default:""
+  });
+
+  const flightSuggestionSelector = selector({
+    key:"flightSuggestionSelector",
+    get:async ({get}) => {
+
+    }
+  })
+
 export default function Search() {
   const [flightIata, setFlightIata] = useRecoilState(flightIataAtom);
 
@@ -56,7 +68,7 @@ export default function Search() {
           value={flightIata}
         />
         <Link to="/flight-tracker" style={styles.link}>
-          Submit
+          Track
         </Link>
       </InputDiv>
       <div></div>

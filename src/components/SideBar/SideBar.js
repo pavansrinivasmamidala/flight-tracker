@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import useFetch from "react-fetch-hook";
 import { useRecoilValue, useRecoilState } from "recoil";
+import { monthArray } from "../../helpers/helper";
 import {
   flightSelector,
   originSelector,
@@ -146,7 +147,7 @@ export default function SideBar() {
         </span>
         <span className="flight-path-info" style={styles.flightPathInfo}>
           {originData?.data[0]?.nameCity} (
-          {flightData?.data[0]?.departure?.iataCode || "Loading Dep Iata Code"}{" "}
+          {flightData?.data[0]?.departure?.iataCode || "Loading Dep Iata Code"}
           ) - {destinationData?.data[0]?.nameCity} (
           {flightData?.data[0]?.arrival?.iataCode || "Loading Dep Iata Code"})
         </span>
@@ -164,7 +165,7 @@ export default function SideBar() {
           <div style={styles.flightInfoCardTableText}>
             <span style={styles.spanText}>Date</span>
             <span style={styles.spanText}>
-              {arrivalDateAndTime?.slice(5, 10) || "Loading"}
+              {arrivalDateAndTime?.slice(8, 10) + " - " + monthArray[parseInt(arrivalDateAndTime?.slice(5, 7)) - 1]  || "Loading"}
             </span>
           </div>
           <div style={styles.flightInfoCardTableText}>

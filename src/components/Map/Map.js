@@ -1,8 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import { lineDistance, along, bearing } from "turf";
-import {useRecoilValue} from 'recoil';
-import { flightSelector, originSelector,destinationSelector } from "../../store";
+import { useRecoilValue } from "recoil";
+import {
+  flightSelector,
+  originSelector,
+  destinationSelector,
+} from "../../store";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicGF2YW5zcmluaXZhcyIsImEiOiJja3ZnMm0xb3M3dWRuMm9wZ3pneDY5bzJ0In0.Ko5yxRyzxEK10CfmZXrW1Q";
@@ -11,7 +15,7 @@ export default function Map() {
   const originData = useRecoilValue(originSelector);
   const destinationData = useRecoilValue(destinationSelector);
   console.log(originData);
-  console.log(destinationData)
+  console.log(destinationData);
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [zoom, setZoom] = useState(3);
@@ -32,7 +36,7 @@ export default function Map() {
       destinationData?.data[0]?.longitudeCity || -77.032,
       destinationData?.data[0]?.latitudeCity || 38.913,
     ];
-
+    console.log("origin: " + origin + " Destination: " + destination);
     const route = {
       type: "FeatureCollection",
       features: [
@@ -47,7 +51,7 @@ export default function Map() {
     };
 
     const length = lineDistance(route.features[0]);
-    
+    console.log(length);
     const arc = [];
 
     const steps = 500;
@@ -97,6 +101,7 @@ export default function Map() {
         data: route,
       });
 
+      map.current.resize();
       map.current.addLayer({
         id: "route",
         source: "route",
@@ -127,9 +132,49 @@ export default function Map() {
           //"icon-ignore-placement":true,
           //"icon-rotation-alignment":"map"
         },
+        properties: {
+          bearing: 30,
+        },
       });
 
-    
+      map.current.loadImage(
+        "https://docs.mapbox.com/mapbox-gl-js/assets/cat.png",
+        (error, image) => {
+          if (error) throw error;
+
+          // Add the image to the map style.
+          map.current.addImage("cat", image);
+
+          // Add a data source containing one point feature.
+          map.current.addSource("point", {
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: [
+                {
+                  type: "Feature",
+                  geometry: {
+                    type: "Point",
+                    coordinates: [-77.4144, 25.0759],
+                  },
+                },
+              ],
+            },
+          });
+
+          // Add a layer to use the image to represent the data.
+          map.current.addLayer({
+            id: "points",
+            type: "symbol",
+            source: "point", // reference the data source
+            layout: {
+              "icon-image": "cat", // reference the image
+              "icon-size": 0.25,
+            },
+          });
+        }
+      );
+      
 
       const animate = () => {
         const start =
@@ -166,12 +211,14 @@ export default function Map() {
       animate(counter);
     });
 
+    
   }, []);
 
   const styles = {
     mapContainer: {
       height: "100vh",
       width: "70vw",
+      left: 0,
     },
   };
 
