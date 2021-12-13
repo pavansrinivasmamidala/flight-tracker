@@ -2,11 +2,8 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import { lineDistance, along, bearing } from "turf";
 import { useRecoilValue } from "recoil";
-import {
-  flightSelector,
-  originSelector,
-  destinationSelector,
-} from "../../store";
+import { originSelector, destinationSelector } from "../../store";
+import styled from "styled-components";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicGF2YW5zcmluaXZhcyIsImEiOiJja3ZnMm0xb3M3dWRuMm9wZ3pneDY5bzJ0In0.Ko5yxRyzxEK10CfmZXrW1Q";
@@ -18,14 +15,16 @@ export default function Map() {
   console.log(destinationData);
   const mapContainer = useRef(null);
   const map = useRef(null);
+  // eslint-disable-next-line
   const [zoom, setZoom] = useState(3);
 
-  //const origin = [cityData.data[0].latitudeCity, cityData.data[0].longitudeCity];
+  // eslint-disable-next-line
   const origin = [-122.414, 37.776];
+  // eslint-disable-next-line
   const destination = [-77.032, 38.913];
 
   //console.log(cityData.data[0].latitudeCity);
-
+  // eslint-disable-next-line
   useEffect(() => {
     const origin = [
       originData?.data[0]?.longitudeCity || -122.414,
@@ -89,7 +88,7 @@ export default function Map() {
       style: "mapbox://styles/pavansrinivas/ckvjy79ek0yui14qmqoka6q09",
       //style:"mapbox://styles/mapbox/streets-v11",
       center: [
-        (origin[0] + destination[0] + 10) / 2,
+        (origin[0] + destination[0] + 50) / 2,
         (origin[1] + destination[1]) / 2,
       ],
       zoom: zoom,
@@ -101,7 +100,6 @@ export default function Map() {
         data: route,
       });
 
-      map.current.resize();
       map.current.addLayer({
         id: "route",
         source: "route",
@@ -137,44 +135,43 @@ export default function Map() {
         },
       });
 
-      map.current.loadImage(
-        "https://docs.mapbox.com/mapbox-gl-js/assets/cat.png",
-        (error, image) => {
-          if (error) throw error;
+      // map.current.loadImage(
+      //   "https://docs.mapbox.com/mapbox-gl-js/assets/cat.png",
+      //   (error, image) => {
+      //     if (error) throw error;
 
-          // Add the image to the map style.
-          map.current.addImage("cat", image);
+      //     // Add the image to the map style.
+      //     map.current.addImage("cat", image);
 
-          // Add a data source containing one point feature.
-          map.current.addSource("point", {
-            type: "geojson",
-            data: {
-              type: "FeatureCollection",
-              features: [
-                {
-                  type: "Feature",
-                  geometry: {
-                    type: "Point",
-                    coordinates: [-77.4144, 25.0759],
-                  },
-                },
-              ],
-            },
-          });
+      //     // Add a data source containing one point feature.
+      //     map.current.addSource("point", {
+      //       type: "geojson",
+      //       data: {
+      //         type: "FeatureCollection",
+      //         features: [
+      //           {
+      //             type: "Feature",
+      //             geometry: {
+      //               type: "Point",
+      //               coordinates: [-77.4144, 25.0759],
+      //             },
+      //           },
+      //         ],
+      //       },
+      //     });
 
-          // Add a layer to use the image to represent the data.
-          map.current.addLayer({
-            id: "points",
-            type: "symbol",
-            source: "point", // reference the data source
-            layout: {
-              "icon-image": "cat", // reference the image
-              "icon-size": 0.25,
-            },
-          });
-        }
-      );
-      
+      //     // Add a layer to use the image to represent the data.
+      //     map.current.addLayer({
+      //       id: "points",
+      //       type: "symbol",
+      //       source: "point", // reference the data source
+      //       layout: {
+      //         "icon-image": "cat", // reference the image
+      //         "icon-size": 0.25,
+      //       },
+      //     });
+      //   }
+      // );
 
       const animate = () => {
         const start =
@@ -209,26 +206,27 @@ export default function Map() {
         counter = counter + 1;
       };
       animate(counter);
+
+      setTimeout( () =>  map.current.resize(), 0);
     });
 
-    
+// eslint-disable-next-line
   }, []);
 
-  const styles = {
-    mapContainer: {
-      height: "100vh",
-      width: "70vw",
-      left: 0,
-    },
-  };
+  
+
+  const MapDiv = styled.div`
+    height:100vh;
+    width:70vw;
+  `;
 
   return (
-    <div>
+    <MapDiv>
       <div
         ref={mapContainer}
         className="map-container"
-        style={styles.mapContainer}
+        style={{width:"100%", height:"100%"}}
       ></div>
-    </div>
+    </MapDiv>
   );
 }

@@ -27,12 +27,12 @@ const MainDiv = styled.div`
     font-size: 20px;
     padding: 4px 4px 4px 10px;
   `;
-
+// eslint-disable-next-line
   const flightSuggestionAtom = atom({
     key:"flightSuggestion",
     default:""
   });
-
+// eslint-disable-next-line
   const flightSuggestionSelector = selector({
     key:"flightSuggestionSelector",
     get:async ({get}) => {
