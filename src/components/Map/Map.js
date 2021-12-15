@@ -16,12 +16,7 @@ export default function Map() {
   const mapContainer = useRef(null);
   const map = useRef(null);
   // eslint-disable-next-line
-  const [zoom, setZoom] = useState(3);
-
-  // eslint-disable-next-line
-  const origin = [-122.414, 37.776];
-  // eslint-disable-next-line
-  const destination = [-77.032, 38.913];
+  const [zoom, setZoom] = useState(2);
 
   //console.log(cityData.data[0].latitudeCity);
   // eslint-disable-next-line
@@ -207,26 +202,16 @@ export default function Map() {
       };
       animate(counter);
 
-      setTimeout( () =>  map.current.resize(), 0);
+      setTimeout(() => map.current.resize(), 0);
     });
 
-// eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
 
-  
-
   const MapDiv = styled.div`
-    height:100vh;
-    width:70vw;
+    height: 100vh;
+    width: 70vw;
   `;
 
-  return (
-    <MapDiv>
-      <div
-        ref={mapContainer}
-        className="map-container"
-        style={{width:"100%", height:"100%"}}
-      ></div>
-    </MapDiv>
-  );
+  return <MapDiv ref={mapContainer} className="map-container"></MapDiv>;
 }

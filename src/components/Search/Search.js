@@ -18,7 +18,7 @@ const MainDiv = styled.div`
     height: 100vh;
   `;
   const InputTag = styled.input`
-    height: 5vh;
+    height: 6vh;
     width: 20vw;
     border: none;
     border-radius: 16px;

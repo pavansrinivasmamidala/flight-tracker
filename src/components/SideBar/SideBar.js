@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import useFetch from "react-fetch-hook";
+import { DataLoading } from "../../helpers/Loading";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { monthArray } from "../../helpers/helper";
 import {
@@ -192,7 +193,7 @@ export default function SideBar() {
         <div className="flight-speed" style={styles.speed}>
           <span style={styles.speedHeading}>Speed</span>
           <span style={styles.speedText}>
-            {flightData?.data[0]?.speed?.horizontal || "Loading Speed"} KM/H
+            {flightData?.data[0]?.speed?.horizontal || <DataLoading />} KM/H
           </span>
         </div>
         <div className="flight-altitude" style={styles.speed}>
