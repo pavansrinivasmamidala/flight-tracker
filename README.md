@@ -3,7 +3,7 @@
 &nbsp;
 &nbsp;
 
-![](https://raw.githubusercontent.com/pavansrinivasmamidala/flight-tracker/master/demo/1.jpg)
+![](https://raw.githubusercontent.com/pavansrinivasmamidala/flight-tracker/master/demo/3.jpg)
 
 &nbsp;
 &nbsp;
