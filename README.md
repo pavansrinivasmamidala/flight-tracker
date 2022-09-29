@@ -10,4 +10,4 @@
 &nbsp;
 &nbsp;
 
-![](https://raw.githubusercontent.com/pavansrinivasmamidala/flight-tracker/master/demo/4.jpg)
+![](https://raw.githubusercontent.com/pavansrinivasmamidala/flight-tracker/master/demo/flight.jpg)
